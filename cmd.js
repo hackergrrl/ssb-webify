@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var webify = require('.')
 
 var filename = process.argv[2]
