@@ -3,6 +3,14 @@ var fs = require('fs')
 var spawn = require('child_process').spawn
 var collect = require('collect-stream')
 
+module.exports = function (filename, cb) {
+  if (fs.statSync(filename).isDirectory()) {
+    wrapDirRec(filename, cb)
+  } else {
+    wrapFile(filename, cb)
+  }
+}
+
 function wrapData (data, cb) {
   var p = spawn('sbot', ['blobs.add'])
   p.stdin.end(data)
@@ -69,25 +77,5 @@ function wrapDirRec (dirname, cb) {
 
       wrapData(JSON.stringify(res), cb)
     }
-  })
-}
-
-var filename = process.argv[2]
-if (!filename) {
-  console.error('USAGE: ssb-webify FILE|DIR')
-  process.exit(1)
-}
-
-if (fs.statSync(filename).isDirectory()) {
-  wrapDirRec(filename, function (err, hash) {
-    if (err) throw err
-    console.log('HASH    : ' + hash)
-    console.log('WEB HASH: ' + encodeURIComponent(hash))
-  })
-} else {
-  wrapFile(filename, function (err, hash) {
-    if (err) throw err
-    console.log('HASH    : ' + hash)
-    console.log('WEB HASH: ' + encodeURIComponent(hash))
   })
 }

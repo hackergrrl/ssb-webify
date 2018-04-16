@@ -6,6 +6,9 @@
   "repository": {
     "url": "git://github.com/noffle/ssb-webify.git"
   },
+  "bin": {
+    "ssb-webify": "cmd.js"
+  },
   "homepage": "https://github.com/noffle/ssb-webify",
   "bugs": "https://github.com/noffle/ssb-webify/issues",
   "main": "index.js",
