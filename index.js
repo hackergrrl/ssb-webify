@@ -72,13 +72,22 @@ function wrapDirRec (dirname, cb) {
   })
 }
 
-if (!process.argv[2]) {
+var filename = process.argv[2]
+if (!filename) {
   console.error('USAGE: ssb-webify FILE|DIR')
   process.exit(1)
 }
 
-wrapDirRec(process.argv[2], function (err, hash) {
-  if (err) throw err
-  console.log('HASH    : ' + hash)
-  console.log('WEB HASH: ' + encodeURIComponent(hash))
-})
+if (fs.statSync(filename).isDirectory()) {
+  wrapDirRec(filename, function (err, hash) {
+    if (err) throw err
+    console.log('HASH    : ' + hash)
+    console.log('WEB HASH: ' + encodeURIComponent(hash))
+  })
+} else {
+  wrapFile(filename, function (err, hash) {
+    if (err) throw err
+    console.log('HASH    : ' + hash)
+    console.log('WEB HASH: ' + encodeURIComponent(hash))
+  })
+}
