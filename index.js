@@ -12,14 +12,11 @@ function wrapData (data, cb) {
 }
 
 function wrapFile (filename, cb) {
-  console.log('wrapping', filename)
   var data = fs.readFileSync(filename, 'utf-8')
   wrapData(data, cb)
 }
 
 function wrapDirRec (dirname, cb) {
-  console.log('wrapping', dirname)
-
   fs.readdir(dirname, function (err, names) {
     if (err) return cb(err)
 
@@ -57,7 +54,7 @@ function wrapDirRec (dirname, cb) {
           done()
         })
       } else {
-        console.log('skip', name)
+        console.log('skipping', name)
         done()
       }
     })
@@ -67,11 +64,9 @@ function wrapDirRec (dirname, cb) {
     var error
     function done (err) {
       if (err) error = err
-      console.log('pending', pending-1)
       if (--pending) return
       if (error) return cb(error)
 
-      console.log('done')
       wrapData(JSON.stringify(res), cb)
     }
   })
@@ -83,5 +78,6 @@ if (!process.argv[2]) {
 }
 
 wrapDirRec(process.argv[2], function (err, hash) {
-  console.log(hash, encodeURIComponent(hash))
+  console.log('HASH    : ' + hash
+  console.log('WEB HASH: ' + encodeURIComponent(hash))
 })
