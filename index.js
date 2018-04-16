@@ -39,22 +39,22 @@ function wrapDirRec (dirname, cb) {
 
     fullnames.forEach(function (name) {
       var fullname = name.full
-      var name = name.local
+      var shortname = name.local
       var stat = fs.statSync(fullname)
       if (stat.isDirectory()) {
         wrapDirRec(fullname, function (err, hash) {
           if (err) return done(err)
-          res.links[name] = hash
+          res.links[shortname] = hash
           done()
         })
       } else if (stat.isFile()) {
         wrapFile(fullname, function (err, hash) {
           if (err) return done(err)
-          res.links[name] = hash
+          res.links[shortname] = hash
           done()
         })
       } else {
-        console.log('skipping', name)
+        console.log('skipping', shortname)
         done()
       }
     })
@@ -78,6 +78,7 @@ if (!process.argv[2]) {
 }
 
 wrapDirRec(process.argv[2], function (err, hash) {
-  console.log('HASH    : ' + hash
+  if (err) throw err
+  console.log('HASH    : ' + hash)
   console.log('WEB HASH: ' + encodeURIComponent(hash))
 })
