@@ -2,7 +2,7 @@
   "name": "ssb-webify",
   "description": "convert a static website into an ssb website",
   "author": "Stephen Whitmore <sww@eight.net>",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": {
     "url": "git://github.com/noffle/ssb-webify.git"
   },
