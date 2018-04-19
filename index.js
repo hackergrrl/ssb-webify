@@ -20,7 +20,7 @@ function wrapData (data, cb) {
 }
 
 function wrapFile (filename, cb) {
-  var data = fs.readFileSync(filename, 'utf-8')
+  var data = fs.readFileSync(filename)
   wrapData(data, cb)
 }
 
