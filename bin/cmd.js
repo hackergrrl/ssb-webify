@@ -7,6 +7,11 @@ var argv = require('minimist')(process.argv)
 var mkdirp = require('mkdirp')
 var spawn = require('child_process').spawn
 
+if (argv.version || argv.v) {
+  console.log(require(path.join(__dirname, '..', 'package.json')).version)
+  return
+}
+
 var cmd = argv._[2]
 if (!cmd) return printUsageAndDie()
 
