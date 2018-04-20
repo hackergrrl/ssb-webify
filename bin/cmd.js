@@ -34,6 +34,10 @@ if (cmd === 'publish') {
 }
 
 if (cmd === 'init') {
+  if (fs.existsSync(path.join('.ssb-web', 'key'))) {
+    console.log('ERROR: A .ssb-web directory already exists here.')
+    process.exit(1)
+  }
   webify.init(function (err, key) {
     mkdirp.sync('.ssb-web')
     fs.writeFileSync(path.join('.ssb-web', 'key'), key, 'utf-8')
