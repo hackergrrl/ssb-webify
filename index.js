@@ -2,12 +2,43 @@ var path = require('path')
 var fs = require('fs')
 var spawn = require('child_process').spawn
 var collect = require('collect-stream')
+var once = require('once')
 
-module.exports = function (filename, cb) {
+module.exports = {
+  init: init,
+  publish: publish
+}
+
+function init (cb) {
+  cb = once(cb)
+
+  var p = spawn('sbot', 'publish --type web-init'.split(' '))
+
+  collect(p.stdout, function (err, res) {
+    if (err) return cb(err)
+    try {
+      var json = JSON.parse(res)
+      return cb(null, json.key)
+    } catch (e) {
+      return cb(e)
+    }
+  })
+
+  p.once('exit', function (code) {
+    if (code) cb(new Error('sbot error code ' + code))
+  })
+}
+
+function publish (filename, cb) {
   if (fs.statSync(filename).isDirectory()) {
-    wrapDirRec(filename, cb)
+    wrapDirRec(filename, done)
   } else {
-    wrapFile(filename, cb)
+    wrapFile(filename, done)
+  }
+
+  function done (err, hash) {
+    if (err) return cb(err)
+    cb(null, hash)
   }
 }
 

@@ -1,0 +1,11 @@
+USAGE: ssb-webify
+
+  init
+    Start a new dynamic website. Publishes a new `web-init` message to SSB and
+    records it in `.ssb-web`.
+
+  publish DIR
+    Publish DIR as a website to SSB. If there is a local `.ssb-web` file in the
+    current directory, a `web-root` message is also published pointing to this
+    as the latest version of the site. Otherwise, it is published as a static
+    site (just the blobs are published to SSB).
