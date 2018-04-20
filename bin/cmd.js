@@ -16,9 +16,7 @@ if (cmd === 'publish') {
   webify.publish(filename, function (err, hash) {
     if (err) throw err
     var keydir = path.join('.ssb-web', 'key')
-    console.log('1', keydir)
     if (fs.existsSync(keydir)) {
-      console.log('2')
       var key = fs.readFileSync(path.join('.ssb-web', 'key'), 'utf-8')
       fs.writeFileSync(path.join('.ssb-web', 'root'), hash, 'utf-8')
       var args = ['publish', '--type', 'web-root', '--root', hash, '--site', key]
