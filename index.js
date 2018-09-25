@@ -6,7 +6,8 @@ var once = require('once')
 
 module.exports = {
   init: init,
-  publish: publish
+  publish: publish,
+  update: update
 }
 
 function init (cb) {
@@ -40,6 +41,12 @@ function publish (filename, cb) {
     if (err) return cb(err)
     cb(null, hash)
   }
+}
+
+function update (site, hash, cb) {
+  var args = ['publish', '--type', 'web-root', '--root', hash, '--site', site]
+  spawn('sbot', args)
+    .once('exit', cb)
 }
 
 function wrapData (data, cb) {

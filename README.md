@@ -65,6 +65,22 @@ Right now this only publishes the blobs (ie. a static website).
 
 Publishes a `web-init` message to sbot and returns the key.
 
+### webify.update(siteKey, hash, cb)
+
+Publishes a message updating the website key `siteKey` to the website at `hash`.
+
+For example, creating a dynamic website and updating it might look like this:
+
+```js
+webify.init(function (_, key) {
+  webify.publish('my_site/', function (_, hash) {
+    webify.update(key, hash, function () {
+      console.log('done')
+    })
+  })
+})
+```
+
 ## License
 
 ISC
