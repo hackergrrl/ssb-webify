@@ -25,7 +25,7 @@ if (cmd === 'publish') {
       var key = fs.readFileSync(path.join('.ssb-web', 'key'), 'utf-8')
       fs.writeFileSync(path.join('.ssb-web', 'root'), hash, 'utf-8')
       var args = ['publish', '--type', 'web-root', '--root', hash, '--site', key]
-      spawn('sbot', args)
+      spawn('ssb-server', args)
         .once('exit', function (code) {
           if (!code) console.log('Published dynamic ssb-web site:', key, '('+encodeURIComponent(key)+')')
           else console.log('error', code)
