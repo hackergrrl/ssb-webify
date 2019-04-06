@@ -12,7 +12,7 @@ module.exports = {
 function init (cb) {
   cb = once(cb)
 
-  var p = spawn('sbot', 'publish --type web-init'.split(' '))
+  var p = spawn('ssb-server', 'publish --type web-init'.split(' '))
 
   collect(p.stdout, function (err, res) {
     if (err) return cb(err)
@@ -25,7 +25,7 @@ function init (cb) {
   })
 
   p.once('exit', function (code) {
-    if (code) cb(new Error('sbot error code ' + code))
+    if (code) cb(new Error('ssb-server error code ' + code))
   })
 }
 
@@ -43,7 +43,7 @@ function publish (filename, cb) {
 }
 
 function wrapData (data, cb) {
-  var p = spawn('sbot', ['blobs.add'])
+  var p = spawn('ssb-server', ['blobs.add'])
   p.stdin.end(data)
   collect(p.stdout, function (err, res) {
     cb(err, res ? res.toString().trim() : undefined)
