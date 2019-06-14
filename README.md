@@ -65,6 +65,16 @@ Right now this only publishes the blobs (ie. a static website).
 
 Publishes a `web-init` message to sbot and returns the key.
 
+The published message's `content` just looks like
+
+```json
+{
+  "type": "web-init"
+}
+```
+
+but its `key` is now the identifier for the mutable website.
+
 ### webify.update(siteKey, hash, cb)
 
 Publishes a message updating the website key `siteKey` to the website at `hash`.
@@ -80,6 +90,18 @@ webify.init(function (_, key) {
   })
 })
 ```
+
+The published message's `content` looks like
+
+```json
+{
+  "type": "web-root",
+  "root": "&9DBDncPbI3cvrGFhpZuF5xNIDlZTRsFLg50CybNuZQs=.sha256",
+  "site": "%RzC0zlEBmeGbQNmVvzKXEED9h+nNRTBLgyS3lWg9gSA=.sha256"
+}
+```
+
+where `root` is the new blob to point the website at, and `site` is the identifier (key) from `webify.init()`.
 
 ## License
 
